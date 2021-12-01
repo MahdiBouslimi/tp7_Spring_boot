@@ -10,7 +10,8 @@ import java.util.List;
 public interface ClassroomRespository extends CrudRepository<Classroom, Integer> {
    List<Classroom> findByName(@Param("name") String name);
 
-    @Query("select  c,max(c.student) from Classroom c")
+
+    @Query("select  c from Classroom c where c.student in (select max(c.student) from Classroom c)")
     Classroom bestClassroom();
     @Query("select s, cl, c from Student s, Classroom  cl, Club c group by c")
     Iterable<Object[]> StudentInClubsPerClass();
